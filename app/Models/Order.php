@@ -7,25 +7,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Product extends Model
+class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'products';
-
     protected $fillable = [
-        'name',
-        'description',
-        'category_id',
+        'product_id',
+        'supplier_id',
+        'quantity',
+        'type',
+        'price',
     ];
 
-    public function category():BelongsTo
+    public function product():BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function orders():HasMany
+    public function supplier():BelongsTo
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(Supplier::class);
     }
 }
