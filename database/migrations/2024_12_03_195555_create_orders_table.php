@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained();
+            $table->dateTime('order_date');
+            $table->foreignId('status_id')->constrained('status')->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('supplier_id')->constrained();
-            $table->integer('quantity');
-            $table->string('type');
-            $table->float('price');
             $table->timestamps();
             $table->softDeletes();
         });

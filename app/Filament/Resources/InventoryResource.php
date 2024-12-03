@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OrderResource\Pages;
-use App\Filament\Resources\OrderResource\RelationManagers;
-use App\Models\Order;
+use App\Filament\Resources\InventoryResource\Pages;
+use App\Filament\Resources\InventoryResource\RelationManagers;
+use App\Models\Inventory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class OrderResource extends Resource
+class InventoryResource extends Resource
 {
-    protected static ?string $model = Order::class;
+    protected static ?string $model = Inventory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,14 +23,15 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DateTimePicker::make('order_date')
+                Forms\Components\Select::make('product_id')
+                    ->relationship('product', 'name')
                     ->required(),
-                Forms\Components\Select::make('status_id')
-                    ->relationship('status', 'status')
+                Forms\Components\TextInput::make('quantity')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\DatePicker::make('entry_date')
                     ->required(),
-                Forms\Components\Select::make('supplier_id')
-                    ->relationship('supplier', 'name')
-                    ->required(),
+                Forms\Components\DatePicker::make('expiration_date'),
             ]);
     }
 
@@ -38,24 +39,23 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_date')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('status.id')
+                Tables\Columns\TextColumn::make('product.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('supplier.name')
+                Tables\Columns\TextColumn::make('quantity')
                     ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('entry_date')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('expiration_date')
+                    ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -81,7 +81,7 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageOrders::route('/'),
+            'index' => Pages\ManageInventories::route('/'),
         ];
     }
 

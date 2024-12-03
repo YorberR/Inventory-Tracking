@@ -6,13 +6,10 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
-use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\Supplier;
-use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
+use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -34,6 +31,12 @@ class ProductResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
                     ->required(),
+                Forms\Components\TextInput::make('purchase_price')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('sale_price')
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
@@ -46,6 +49,12 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('purchase_price')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('sale_price')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

@@ -7,24 +7,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Order extends Model
+class Inventory extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'order_date',
-        'status',
-        'supplier_id',
-        'status_id'
+        'product_id',
+        'quantity',
+        'entry_date',
+        'expiration_date',
     ];
 
-    public function supplier(): BelongsTo
+    public function product():BelongsTo
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(Status::class);
-    }
 }

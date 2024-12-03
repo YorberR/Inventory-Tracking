@@ -17,6 +17,8 @@ class Product extends Model
         'name',
         'description',
         'category_id',
+        'purchase_price',
+        'sale_price',
     ];
 
     public function category():BelongsTo
@@ -24,8 +26,8 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function orders():HasMany
+    public function inventories():HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Inventory::class);
     }
 }
