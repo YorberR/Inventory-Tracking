@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Rmsramos\Activitylog\ActivitylogPlugin;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -57,6 +58,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
             ActivitylogPlugin::make(),
+            FilamentShieldPlugin::make()
             ]);
     }
 }
